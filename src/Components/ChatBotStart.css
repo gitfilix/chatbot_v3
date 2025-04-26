@@ -1,0 +1,36 @@
+.start-page {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+}
+
+.start-page-btn {
+    width: 35rem;
+    height: 15rem;
+    color: #eee;
+    background: linear-gradient(135deg, #a50c33, #8e25bf);
+    border: 1px solid rgb(35, 65, 67);
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 5rem;
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 700;
+    transform: background 1s ease-out;
+    letter-spacing: 0.1rem;
+    text-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.5);
+    box-shadow: 0 2rem 2rem rgba(0, 0, 0, 0.5);
+    transition: transform 0.1s ease-in;
+    
+    &:hover {
+        background: linear-gradient(135deg, #be0b14, #af27af);
+        transform: background 0.5s ease-in;
+        transform: color 0.5s ease-in;
+        color: #fffdc4;
+    }
+
+    /* click effect */
+    &:active {
+        transform: scale(0.95);
+    }
+}

@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    font-family: 'outfit', sans-serif;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+.container {
+  width: 100%;
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  background-color: #3c174c
+}
+
+@media (max-width: 500px) {
+
+  html {
+    font-size: 53%;
+  }
+
+  .container {
+    background-color: #363390
+  }
+}
