@@ -11,6 +11,10 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
 
   // fetch the apiKey from the local .env file !
   const apiKey = import.meta.env.VITE_REACT_APP_OPENAI_API_KEY || 'no key found';
+  const [currentModel, setCurrentModel] = useState('gpt-3.5-turbo')
+  const [currentTokens, setCurrentTokens] = useState(250)
+
+
 
   useEffect(() => {
     // get the active chat object
@@ -69,7 +73,7 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
       setChats(updatedChats)
       localStorage.setItem('chats', JSON.stringify(updatedChats))
       setIsTyping(true)
-
+      console.log('current model:', currentModel)
       // fetch response from openAi 
       const response = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
@@ -78,11 +82,12 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
           Authorization: `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
-          model: 'gpt-3.5-turbo',
+          model: currentModel,
           messages: [{role: 'user', content: inputValue}],
-          max_tokens: 250,
+          max_tokens: currentTokens,
         }),
       })
+      console.log('Response:', response)
       // data response from the fetch request
       const data = await response.json();
       
@@ -188,30 +193,60 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
                   e.stopPropagation()
                   handleDeleteChat(chat.id)
                 }}></i>
-            </div>
-        ))}
-      </div>
-      <div className='chat-window'>
-        <div className='chat-title'>
-          <h2>Chat with AI</h2>
-          <i className='bx bx-menu'
-            onClick={() => setShowChatList(true)}></i>
-          <i className='bx bx-arrow-back arrow'
-            onClick={onGoBack}>
-          </i>
-        </div>
-        <div className='chat'>
-            {messages.map((msg, index) => (
-              <div key={index} className={msg.type === 'prompt' ? 'prompt' : 'response'}>
-                <p>{msg.text}</p>
-                <span>{msg.timestamp}</span>
               </div>
             ))}
-          {isTyping && <div className='typing'>Bot is responding...</div>}
-          <div ref={chatEndRef} ></div>
-        </div>
-        <form className='msg-form'
-          onSubmit={(e) => {
+            </div>
+            <div className='chat-window'>
+            <div className='chat-title'>
+              <h2>FLX Chat</h2>
+              <div className='settings'>
+                <div className='llm-settings' >
+                  <h3>LLM model: <span className='model-name'>{currentModel}</span></h3>
+                    <select 
+                    className='model-select' 
+                    value={currentModel} 
+                    onChange={(e) => {
+                      const selectedModel = e.target.value;
+                      setCurrentModel(selectedModel);
+                      // Update the current model in the state
+                      console.log(`Model changed to: ${selectedModel}`);
+                    }}>
+                    <option value='gpt-3.5-turbo'>gpt-3.5-turbo</option>
+                    <option value='gpt-4.1-nano'>gpt-4.1-nano</option>
+                    <option value='gpt-4o-mini'>gpt-4o mini</option>
+                    </select>
+                  </div>
+                  <div className='token-settings'>
+                    <h3>current Tokens:<span className='token-name'>{currentTokens}</span></h3>
+                    <input
+                    type='range' 
+                    min='100' 
+                    max='2000' 
+                    value={currentTokens} 
+                    onChange={(e) => {
+                      const selectedTokens = parseInt(e.target.value, 10); // Ensure it's a number
+                      setCurrentTokens(selectedTokens);
+                    }} />
+                  </div>
+                  </div>                  
+                  <i className='bx bx-menu'
+                  onClick={() => setShowChatList(true)}></i>
+                  <i className='bx bx-arrow-back arrow'
+                  onClick={onGoBack}>
+                  </i>
+                </div>
+                <div className='chat'>
+                  {messages.map((msg, index) => (
+                  <div key={index} className={msg.type === 'prompt' ? 'prompt' : 'response'}>
+                  <p>{msg.text}</p>
+                  <span>{msg.timestamp}</span>
+                  </div>
+                  ))}
+                  {isTyping && <div className='typing'>Bot is responding...</div>}
+                  <div ref={chatEndRef} ></div>
+                </div>
+                <form className='msg-form'
+                  onSubmit={(e) => {
             e.preventDefault()
             sendMessage()
           }}>

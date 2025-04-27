@@ -86,7 +86,7 @@
 
 .chat-title {
     width: 100%;
-    min-height: 8rem;
+    min-height: 12rem;
     background-color: #0d111a;
     display: flex;
     justify-content: space-between;
@@ -102,6 +102,24 @@
     letter-spacing: 1px;
     font-family: 'Exo 2', sans-serif;
     color: #7b8ebc;
+}
+
+.chat-title h3 {
+    padding-right: 3rem;
+    padding-bottom: 2rem;
+    font-size: 1.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: 'Exo 2', sans-serif;
+    color: #a3e7e7;
+}
+
+.settings {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: left;
 }
 
 .arrow {
