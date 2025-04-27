@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
-import Picker from '@emoji-mart/react'
-import emojidata from '@emoji-mart/data'
+// import Picker from '@emoji-mart/react'
+// import emojidata from '@emoji-mart/data'
 import './ChatBotApp.css'
 
 const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNewChat }) => {
@@ -8,7 +8,7 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
   const [inputValue, setInputValue] = useState('')
   const [messages, setMessages] = useState(chats[0]?.messages || [])
   const [isTyping, setIsTyping] = useState(false)
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false)
+  // const [showEmojiPicker, setShowEmojiPicker] = useState(false)
   const [showChatList, setShowChatList] = useState(false)
   const chatEndRef = useRef(null)
 
@@ -30,9 +30,9 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
   }, [activeChat])
   
   // append to the input field the selected emoji
-  const handleEmojiSelect = (emoji) => {
-    setInputValue((prevInput) => prevInput + emoji.native)
-  }
+  // const handleEmojiSelect = (emoji) => {
+  //   setInputValue((prevInput) => prevInput + emoji.native)
+  // }
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value)
@@ -222,19 +222,6 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
             e.preventDefault()
             sendMessage()
           }}>
-          <i 
-            className='fa-solid  fa-face-smile emoji' 
-            // this toggles the emoji picker prev and !prev is state toggling
-            onClick={() => setShowEmojiPicker((prev) => !prev)}></i>
-            {showEmojiPicker && (
-              <div className='emopicker'>
-                <Picker 
-                  data={emojidata}
-                  title='Pick your emoji'
-                  onEmojiSelect={handleEmojiSelect}
-                  />
-              </div>
-            )}
           <input 
             type='text' 
             placeholder='Ask me anything... FLX chatbot may help you - or not'  
@@ -242,7 +229,7 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
             value={inputValue} 
             onChange={handleInputChange} 
             onKeyDown={handleKeyDown}
-            onFocus={() => setShowEmojiPicker(false)}
+            // onFocus={() => setShowEmojiPicker(false)}
             />
           <i 
             className='fa-solid fa-paper-plane' 

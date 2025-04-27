@@ -171,15 +171,17 @@
     height: 10rem;
     display: flex;
     align-items: center;
-    background-color: #161c2c;
+    background-color: #292c34;
     box-shadow: 0 -0.5rem 1rem rgba(0, 0, 0, 0.5);
     padding-right: 5rem;
+    padding-left: 3rem;
+    border: 1px solid #2d2d2d;
     position: relative;
 }
 
 .msg-form i {
     font-size: 2.5rem;
-    color: #7b8ebc;
+    color: #fcc42c;
     cursor: pointer;
 }
 
@@ -197,6 +199,7 @@
     font-size: 1.8rem;
     line-height: 2.2rem;
     color:#7b8ebc;
+    inset: auto;
 }
 
 .msg-input::placeholder {

@@ -1,2 +1,9 @@
-
 .DS_Store
+/node_modules
+/dist
+/.stylelintrc.js
+/.gitignore
+/.eslintrc.js
+/.prettierrc
+
+.env
