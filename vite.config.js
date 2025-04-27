@@ -10,6 +10,13 @@ export default defineConfig({
   server: {
       host: true,
       strictPort: true,
-      port: isProduction ? 10000: 5173
+      port: isProduction ? 10000: 5173,
+      allowedHosts: [
+        'flx-chatbot.local',
+        'flx-chatbot.local:10000',
+        'flx-chatbot.local:5173',
+        'localhost',
+        'flx-chatbot-v2.onrender.com'
+      ],
   }
 })
