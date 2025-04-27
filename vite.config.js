@@ -7,8 +7,9 @@ const isProduction = process.env.NODE_ENV === 'production'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-
   server: {
-    port: isProduction ? 10000: 5173,
-  },
+      host: true,
+      strictPort: true,
+      port: isProduction ? 10000: 5173
+  }
 })
