@@ -252,7 +252,7 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
           }}>
           <input 
             type='text' 
-            placeholder='Ask me anything... FLX chatbot may help you - or not'  
+            placeholder='Ask me anything... FLX chatbot may help answer your question'  
             className='msg-input' 
             value={inputValue} 
             onChange={handleInputChange} 
