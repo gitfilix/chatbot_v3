@@ -9,6 +9,6 @@ export default defineConfig({
   plugins: [react()],
 
   server: {
-    port: isProduction ? 4173: 5173,
+    port: isProduction ? 10000: 5173,
   },
 })
