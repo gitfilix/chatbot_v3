@@ -425,6 +425,7 @@
     color: #7b8ebc;
     cursor: pointer;
     margin-left: 1.5rem;
+
     &:hover {
         color: #fcc42c;
     }
@@ -511,10 +512,6 @@
         background: linear-gradient(125deg, #060206, #590e43);
     }
 
-    .input-container {
-        position: sticky;
-        bottom: 1rem;
-    }
 
     .msg-input {
         font-size: 2.8rem;
@@ -535,23 +532,7 @@
     
       .msg-form {
         position: fixed;
+        width: 100%;;
         bottom: 0;
-        width: 100%;
-        padding: 1rem
-      }
-    
-      /* .msg-input {
-        font-size: 16px; /* Prevents iOS zoom on input */
-      /* } */
-    
-      .install-button {
-        position: fixed;
-        bottom: 70px;
-        right: 20px;
-        padding: 10px 20px;
-        border-radius: 20px;
-        z-index: 1000;
-        border: none;
-        cursor: pointer;
       }
 }
