@@ -245,7 +245,7 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
                   <h3>LLM model: <span className='model-name'>{currentModel}</span></h3>
                 </div>
                   <div>
-                    <h3>current Tokens: <span className='token-name'>{currentTokens}</span></h3>
+                    <h3>Current Tokens: <span className='token-name'>{currentTokens}</span></h3>
                 </div>
                </div>
                <div className='menu-icon-container'>              
