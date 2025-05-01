@@ -23,10 +23,12 @@ html {
 @media (max-width: 500px) {
 
   html {
-    font-size: 53%;
+    font-size: 50%;
   }
 
   .container {
-    background-color: #363390
+    /* background-color: #50385a; */
+    background: linear-gradient(125deg, #060206, #590e43);
   }
+
 }

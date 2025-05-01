@@ -44,13 +44,16 @@ Currently, two official plugins are available:
 - how to use render to deploy a react app
 - API calls to openAI API
 - NEVER add the API key to a const and push it to github - github will not allow to push the API key to github!
+(dont even try it as comment. no key should ever be in the code!)
 - use 'build' npm script to build the app before deploy
-- use 'port 10000' for render production !
+- use 'port 10000' for render production!
 - use dotenv for adding the secret key to the .env file
 - use 'serve' npm script to run the app after build and add the host to the allowedHosts array
 - use 'render' npm script to deploy the app
 - remove the emoji-picker-library as it causes problems due the build process 
 - some neat css tricks.
+- add differnt models to the openAI API
+
 
 
 add this for usage of vite config for dotenv and others global variables
@@ -80,4 +83,5 @@ useage of vite.config.ts
 
 ## .env contains the secret key for openAI API - get your own API key and pay at leaset 5$ if you want to use it on your own.
 from here: https://platform.openai.com/account/api-keys
+
 

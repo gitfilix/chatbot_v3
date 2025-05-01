@@ -172,13 +172,54 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
     <div className='chat-app'>
       <div className={`chat-list ${showChatList ? 'show' : ''}`}>
         <div className='chat-list-header'>
-          <h2>Chat List</h2>
-          <i className='bx bx-message-add new-chat'
-            onClick={() => onNewChat(inputValue)}>
-          </i>
+          <h2>Menu</h2>
           <i className='bx bx-x-circle close-list'
             onClick={() => setShowChatList(false)}>
           </i>
+        </div>
+        <div className='chat-list-header'>
+          <h2>New Chat</h2>
+          <i className='bx bx-message-add new-chat'
+            onClick={() => onNewChat(inputValue)}>
+          </i>
+        </div>
+        <div className='chat-settings'>
+          <h2>API Settings</h2>
+          <div className='llm-settings' >
+            <h4>Current LLM model: <div className='model-name'>{currentModel}</div></h4>
+              <select 
+              className='model-select' 
+              value={currentModel} 
+              onChange={(e) => {
+                const selectedModel = e.target.value;
+                setCurrentModel(selectedModel);
+                // Update the current model in the state
+                console.log(`Model changed to: ${selectedModel}`);
+              }}>
+              <option value='gpt-3.5-turbo'>gpt-3.5-turbo</option>
+              <option value='gpt-4.0-turbo'>gpt-4.0-turbo</option>
+              <option value='gpt-4.1-nano'>gpt-4.1-nano</option>
+              <option value='gpt-4o-mini'>gpt-4o mini</option>
+              <option value='gpt-4.1-mini'>gpt-4.1-mini</option>
+              <option value='gpt-4.1-2025-04-14'>gpt-4.1 complex</option>
+              </select>
+          </div>
+            <div className='token-settings'>
+              <h4>Current Tokens usage: <span className='token-name'>{currentTokens}</span></h4>
+              <input
+              className='token-input'
+              type='range' 
+              min='100' 
+              max='4000' 
+              value={currentTokens} 
+              onChange={(e) => {
+                const selectedTokens = parseInt(e.target.value, 10); // Ensure it's a number
+                setCurrentTokens(selectedTokens);
+              }} />
+          </div>
+        </div>
+        <div className='chat-list-header'>
+        <h2>Chat List</h2>
         </div>
         {chats.map((chat) => (
             <div 
@@ -199,41 +240,21 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
             <div className='chat-window'>
             <div className='chat-title'>
               <h2>FLX Chat</h2>
-              <div className='settings'>
-                <div className='llm-settings' >
+              <div className='header-info'>
+                <div >
                   <h3>LLM model: <span className='model-name'>{currentModel}</span></h3>
-                    <select 
-                    className='model-select' 
-                    value={currentModel} 
-                    onChange={(e) => {
-                      const selectedModel = e.target.value;
-                      setCurrentModel(selectedModel);
-                      // Update the current model in the state
-                      console.log(`Model changed to: ${selectedModel}`);
-                    }}>
-                    <option value='gpt-3.5-turbo'>gpt-3.5-turbo</option>
-                    <option value='gpt-4.1-nano'>gpt-4.1-nano</option>
-                    <option value='gpt-4o-mini'>gpt-4o mini</option>
-                    </select>
-                  </div>
-                  <div className='token-settings'>
-                    <h3>current Tokens:<span className='token-name'>{currentTokens}</span></h3>
-                    <input
-                    type='range' 
-                    min='100' 
-                    max='2000' 
-                    value={currentTokens} 
-                    onChange={(e) => {
-                      const selectedTokens = parseInt(e.target.value, 10); // Ensure it's a number
-                      setCurrentTokens(selectedTokens);
-                    }} />
-                  </div>
-                  </div>                  
+                </div>
+                  <div>
+                    <h3>current Tokens: <span className='token-name'>{currentTokens}</span></h3>
+                </div>
+               </div>
+               <div className='menu-icon-container'>              
                   <i className='bx bx-menu'
                   onClick={() => setShowChatList(true)}></i>
                   <i className='bx bx-arrow-back arrow'
                   onClick={onGoBack}>
                   </i>
+                  </div>
                 </div>
                 <div className='chat'>
                   {messages.map((msg, index) => (
@@ -250,18 +271,22 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
             e.preventDefault()
             sendMessage()
           }}>
-          <input 
-            type='text' 
-            placeholder='Ask me anything... FLX chatbot may help answer your question'  
-            className='msg-input' 
-            value={inputValue} 
-            onChange={handleInputChange} 
-            onKeyDown={handleKeyDown}
-            />
-          <i 
-            className='fa-solid fa-paper-plane' 
-            onClick={sendMessage}>
-            </i>
+          <div className='input-container'>
+            <input 
+              type='text' 
+              placeholder='Ask me anything... FLX chatbot may answer your question'  
+              className='msg-input'
+              minLength={5}
+              maxLength={200}
+              value={inputValue} 
+              onChange={handleInputChange} 
+              onKeyDown={handleKeyDown}
+              />
+            <i 
+              className='fa-solid fa-paper-plane' 
+              onClick={sendMessage}>
+              </i>
+          </div>  
         </form>
       </div>
     </div>
