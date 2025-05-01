@@ -1,0 +1,21 @@
+{
+  "name": "FLX Chatbot",
+  "short_name": "FLXChat",
+  "description": "AI Chat Assistant",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "/assets/flx32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/flx1.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    }
+  ]
+}

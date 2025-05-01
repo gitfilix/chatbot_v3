@@ -520,4 +520,38 @@
         font-size: 2.8rem;
         line-height: 3.4rem;
     }
+
+    .chat-window {
+        width: 100%;
+        height: 100vh;
+        margin: 0;
+        border-radius: 0;
+      }
+    
+      .chat-list {
+        width: 85%;
+        height: 100vh;
+      }
+    
+      .msg-form {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        padding: 1rem
+      }
+    
+      /* .msg-input {
+        font-size: 16px; /* Prevents iOS zoom on input */
+      /* } */
+    
+      .install-button {
+        position: fixed;
+        bottom: 70px;
+        right: 20px;
+        padding: 10px 20px;
+        border-radius: 20px;
+        z-index: 1000;
+        border: none;
+        cursor: pointer;
+      }
 }

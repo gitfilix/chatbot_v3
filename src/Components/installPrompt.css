@@ -1,0 +1,47 @@
+.install-button {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    padding: 12px 24px;
+    border-radius: 25px;
+    z-index: 1000;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: transform 0.2s ease;
+  }
+  
+.install-button:hover {
+    transform: scale(1.05);
+}
+
+/* Adjust position when virtual keyboard is open */
+@media (max-height: 450px) {
+    .install-button {
+        display: none;
+    }
+}
+
+.glass-morphism {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+.chat-window {
+    @extend .glass-morphism;
+    border-radius: 20px;
+}
+
+.chat-list {
+    @extend .glass-morphism;
+    border-radius: 15px;
+}
+
+.msg-form {
+@extend .glass-morphism;
+border-radius: 25px;
+}
+

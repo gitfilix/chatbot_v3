@@ -15,8 +15,6 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
   const [currentModel, setCurrentModel] = useState('gpt-3.5-turbo')
   const [currentTokens, setCurrentTokens] = useState(250)
 
-
-
   useEffect(() => {
     // get the active chat object
     const activeChatObj = chats.find(chat => chat.id === activeChat)
