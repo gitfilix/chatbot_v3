@@ -6,13 +6,17 @@ version 3 of chatbot with chat-gpt integration for render deployment
 lets talk with AI with this nice UI and try out the API of openAI
 
 # install it locally
-npm install
+`npm install``
+
 # start the dev server
-npm run dev
+
+`npm run dev`
 # build the app for production
-npm run build
+
+`npm run build`
+
 # run the app in production mode
-npm run serve
+`npm run serve`
 
 use 'port 10000' for render production mode
 use port 5173 for local development
@@ -60,10 +64,12 @@ add this for usage of vite config for dotenv and others global variables
 
 ` const apiKey = import.meta.env || '';`
 
-useage of vite.config.ts
+## usage of vite.config.ts
 
-## vite.config.ts
-```export default defineConfig({
+`vite.config.ts`
+
+```
+export default defineConfig({
   plugins: [react()],
   server: {
       host: true,
@@ -77,11 +83,19 @@ useage of vite.config.ts
         'flx-chatbot-v2.onrender.com'
       ],
   }
-})```
+})
+```
 
 
 
-## .env contains the secret key for openAI API - get your own API key and pay at leaset 5$ if you want to use it on your own.
+
+# to start the app
+`npm run serve`
+
+after you built it. 
+
+
+# .env contains the secret key for openAI API - get your own API key and pay at leaset 5$ if you want to use it on your own.
 from here: https://platform.openai.com/account/api-keys
 
 

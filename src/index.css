@@ -17,7 +17,7 @@ html {
   height: 100vh;
   display: grid;
   place-items: center;
-  background-color: #3c174c
+  background: linear-gradient(125deg, #161516, #580b22);
 }
 
 @media (max-width: 500px) {
