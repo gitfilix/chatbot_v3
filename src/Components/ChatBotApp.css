@@ -241,14 +241,6 @@
     color: #7b8ebc
 }
 
-/* .settings {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-    align-items: left;
-    border: 1px solid salmon;
-} */
-
 .new-chat {
     font-size: 3rem;
     cursor: pointer;
@@ -297,20 +289,111 @@
 }
 
 .response {
-    background: linear-gradient(135deg, #934625, #fe4d57);
+    background: linear-gradient(135deg, #2b1e19, #fe4d57);
     align-self: flex-start;
     border-radius: 0 3rem 3rem 3rem;
     text-align: left;
 }
 
-.prompt p,
-.response p {
+.prompt span,
+.response span {
     font-family: 'Exo 2', sans-serif;
-    font-size: 1.8rem;
+    font-size: 2rem;
     line-height: 2.6rem;
     display: block;
     margin-top: 0.5rem;
 }
+
+/*new markdown support */
+/* Headings */
+.chat-response h1,
+.chat-response h2,
+.chat-response h3 {
+    margin: 1rem 0;
+    font-weight: bold;
+}
+
+.chat-response h1 {
+    font-size: 2.6rem;
+    letter-spacing: 0.5px;
+    line-height: 3rem;
+}
+
+.chat-response h2 {
+    font-size: 1.8rem;
+}
+
+.chat-response h3 {
+    font-size: 1.6rem;
+}
+
+/* Paragraphs */
+.chat-response p {
+    margin: 1rem 0;
+}
+
+/* Links */
+.chat-response a {
+    color: #2fecec;
+    text-decoration: none;
+    font-size: 1.6rem;
+}
+
+.chat-response a:hover {
+    text-decoration: underline;
+}
+
+/* Lists */
+.chat-response ul {
+    margin: 1rem 0;
+    padding-left: 2rem;
+}
+
+.chat-response ol {
+    margin: 1rem 0;
+    padding-left: 2rem;
+}
+
+.chat-response li {
+    margin: 0.5rem 0;
+    font-size: 1.6rem;
+}
+
+/* Code blocks */
+.chat-response pre {
+    background-color: #1f1d1d;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    font-size: 1.4rem;
+}
+
+.chat-response code {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #191717;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.3rem;
+    font-size: 1.4rem;
+}
+
+/* Blockquotes */
+.chat-response blockquote {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+    border-left: 0.4rem solid #ccc;
+    color: #555;
+    font-style: italic;
+    font-size: 1.6rem;
+}
+
+/* Tables */
+.chat-response table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 1.6rem;
+}
+
 
 /* Typing placeholder for before answer arrives */
 .typing {
@@ -417,7 +500,7 @@
    }
 }
 
-/* mobile */
+/* mobile until 500px */
 @media (max-width: 500px) {
     .chat-list {
         width: 90%;

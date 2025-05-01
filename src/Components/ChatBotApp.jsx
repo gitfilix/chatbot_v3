@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import ReactMarkdown from 'react-markdown';
 import './ChatBotApp.css'
 
 const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNewChat }) => {
@@ -73,7 +74,7 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
       setChats(updatedChats)
       localStorage.setItem('chats', JSON.stringify(updatedChats))
       setIsTyping(true)
-      console.log('current model:', currentModel)
+      console.log('using the model:', currentModel)
       // fetch response from openAi 
       const response = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
@@ -99,7 +100,7 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
  
       // mostly the response is in the first choice and removes the leading and trailing whitespaces
       const chatResponse = data.choices[0].message.content.trim();
-
+      console.log('Chat response:', chatResponse)
       // create a new response message (internal message type response)
       const newResponse = {
         type: 'response',
@@ -188,13 +189,12 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
           <div className='llm-settings' >
             <h4>Current LLM model: <div className='model-name'>{currentModel}</div></h4>
               <select 
+            // Update the current model in the state
               className='model-select' 
               value={currentModel} 
               onChange={(e) => {
                 const selectedModel = e.target.value;
                 setCurrentModel(selectedModel);
-                // Update the current model in the state
-                console.log(`Model changed to: ${selectedModel}`);
               }}>
               <option value='gpt-3.5-turbo'>gpt-3.5-turbo</option>
               <option value='gpt-4.0-turbo'>gpt-4.0-turbo</option>
@@ -259,11 +259,13 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
                 <div className='chat'>
                   {messages.map((msg, index) => (
                   <div key={index} className={msg.type === 'prompt' ? 'prompt' : 'response'}>
-                  <p>{msg.text}</p>
+                    <span className="chat-response">
+                      <ReactMarkdown>{msg.text}</ReactMarkdown>
+                  </span>
                   <span>{msg.timestamp}</span>
                   </div>
                   ))}
-                  {isTyping && <div className='typing'>Bot is responding...</div>}
+                  {isTyping && <div className='typing'>Bot is thinking about your question...</div>}
                   <div ref={chatEndRef} ></div>
                 </div>
                 <form className='msg-form'
