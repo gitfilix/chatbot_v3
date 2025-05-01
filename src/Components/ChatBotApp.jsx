@@ -263,7 +263,7 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
                   <span>{msg.timestamp}</span>
                   </div>
                   ))}
-                  {isTyping && <div className='typing'>Bot is thinking about your question...</div>}
+                  {isTyping && <div className='typing'>Bot is thinking about the answer to your question...</div>}
                   <div ref={chatEndRef} ></div>
                 </div>
                 <form className='msg-form'

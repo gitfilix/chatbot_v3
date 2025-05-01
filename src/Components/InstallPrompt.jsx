@@ -1,7 +1,4 @@
-// This component listens for the 'beforeinstallprompt' event, which is fired when the app is installable.
-// When the event is fired, it prevents the default behavior and stores the event in state.
-// When the user clicks the "Add to Home Screen" button, it prompts the user to install the app.
-// If the user accepts, it hides the button and resets the state.
+
 // fuckin vibe coding works
 
 import React, { useEffect, useState } from 'react';

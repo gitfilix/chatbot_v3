@@ -1,20 +1,30 @@
 {
   "name": "FLX Chatbot",
   "short_name": "FLXChat",
-  "description": "AI Chat Assistant",
+  "description": "FLX AI Chat Bot",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#000000",
+  "background_color": "#590e43",
+  "theme_color": "#590e43",
   "icons": [
     {
-      "src": "/assets/flx32.png",
+      "src": "/src/assets/favicon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/src/assets/web-app-manifest-512x512.png",
       "sizes": "32x32",
       "type": "image/png"
     },
     {
-      "src": "/assets/flx1.png",
-      "sizes": "96x96",
+      "src": "/src/assets/web-app-manifest-512x512.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/src/assets/web-app-manifest-512x512.png",
+      "sizes": "512x512",
       "type": "image/png"
     }
   ]
