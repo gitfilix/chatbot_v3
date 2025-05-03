@@ -59,6 +59,8 @@ Currently, two official plugins are available:
 - add differnt models to the openAI API (using: gpt-3.5-turbo,  gpt-4, gpt-4.0-turbo, gpt-4.1-nano, gpt-4o-mini, gpt-4.1-mini, gpt-4.1-2025-04-14)
 - use the render.com favicon generator to get a favicon for your app (with the logo of the render.com website)
 - use the realfavicon generator
+- work with markdown and styling with the markdown-it library
+
 
 
 
@@ -67,6 +69,8 @@ add this for usage of vite config for dotenv and others global variables
 ` const apiKey = import.meta.env || '';`
 
 ## usage of vite.config.ts
+
+see documentation: https://vite.dev/config/
 
 `vite.config.ts`
 

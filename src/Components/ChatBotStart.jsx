@@ -7,7 +7,7 @@ const ChatBotStart = ({ onStartChat }) => {
 
   return (
     <div className='start-page'>
-      <button className='start-page-btn' onClick={onStartChat}>Chat with AI v3</button>
+      <button className='start-page-btn' onClick={onStartChat}>Chat with FLX Bot</button>
       <InstallPrompt />
     </div>
 

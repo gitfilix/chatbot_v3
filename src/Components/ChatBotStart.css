@@ -20,7 +20,7 @@
     letter-spacing: 0.1rem;
     text-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.5);
     box-shadow: 0 2rem 2rem rgba(0, 0, 0, 0.5);
-    transition: transform 0.2s ease-in;
+    transition: transform 0.4s ease-in;
     
     &:hover {
         background: linear-gradient(135deg, #be0b14, #af27af);

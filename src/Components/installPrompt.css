@@ -2,17 +2,17 @@
     position: fixed;
     bottom: 80px;
     right: 20px;
-    padding: 12px 24px;
+    padding: 16px 26px;
     border-radius: 25px;
     z-index: 1000;
     border: none;
     cursor: pointer;
-    font-weight: 600;
+    font-weight: 200;
     transition: transform 0.2s ease;
 }
   
 .install-button:hover {
-    transform: scale(1.05);
+    transform: scale(1.1);
 }
 
 /* Adjust position when virtual keyboard is open */
@@ -23,11 +23,12 @@
 }
 
 .glass-morphism {
+    color: #a3e7e7;
     background: rgba(255, 255, 255, 0.25);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.18);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    box-shadow: 0 8px 32px 0 rgba(116, 235, 247, 0.37);
 }
 
 
