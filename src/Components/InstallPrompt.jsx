@@ -36,7 +36,7 @@ const InstallPrompt = () => {
       className="install-button glass-morphism"
       onClick={handleInstallClick}
     >
-      Add to Home Screen
+      Add FLX Bot to HomeScreen
     </button>
   );
 };

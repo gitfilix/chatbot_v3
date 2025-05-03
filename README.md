@@ -56,7 +56,9 @@ Currently, two official plugins are available:
 - use 'render' npm script to deploy the app
 - remove the emoji-picker-library as it causes problems due the build process 
 - some neat css tricks.
-- add differnt models to the openAI API
+- add differnt models to the openAI API (using: gpt-3.5-turbo,  gpt-4, gpt-4.0-turbo, gpt-4.1-nano, gpt-4o-mini, gpt-4.1-mini, gpt-4.1-2025-04-14)
+- use the render.com favicon generator to get a favicon for your app (with the logo of the render.com website)
+- use the realfavicon generator
 
 
 
@@ -94,8 +96,8 @@ export default defineConfig({
 
 after you built it. 
 
+# API key for openAI API
 
-# .env contains the secret key for openAI API - get your own API key and pay at leaset 5$ if you want to use it on your own.
-from here: https://platform.openai.com/account/api-keys
+local `.env` contains the secret key for openAI API - get your own API key and pay at least 5$ if you want to use it on your own. from here: https://platform.openai.com/account/api-keys
 
 
