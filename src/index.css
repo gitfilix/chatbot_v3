@@ -5,7 +5,7 @@
     padding: 0;
     box-sizing: border-box;
     outline: none;
-    font-family: 'outfit', sans-serif;
+    font-family: 'Outfit', sans-serif;
 }
 
 html {
@@ -24,7 +24,7 @@ html {
 @media (max-width: 500px) {
 
   html {
-    font-size: 48%;
+    font-size: 52%;
   }
 
   .container {

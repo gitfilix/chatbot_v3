@@ -36,7 +36,6 @@
 .chat-list-header i {
     font-size: 2.2rem;
     cursor: pointer;
-    /* color: #7b8ebc; */
 }
 
 .chat-list-item {
@@ -115,7 +114,7 @@
 
 .model-name,
 .token-name {
-    /* font-family: 'Outfit', sans-serif; */
+    font-family: 'Outfit', sans-serif;
     padding-top: 1.5rem;
     font-size: 2rem;
     font-weight: 200;
@@ -264,6 +263,7 @@
     flex-direction: column;
     padding: 2rem;
     row-gap: 4rem;
+    max-height: 90vh;
     overflow-y: auto;
 }
 
@@ -319,11 +319,11 @@
 }
 
 .chat-response h2 {
-    font-size: 1.8rem;
+    font-size: 2rem;
 }
 
 .chat-response h3 {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
 }
 
 /* Paragraphs */
@@ -355,7 +355,8 @@
 
 .chat-response li {
     margin: 0.5rem 0;
-    font-size: 1.6rem;
+    font-size: 1.8rem;
+    line-height: 2.8rem;
 }
 
 /* Code blocks */
@@ -364,7 +365,7 @@
     padding: 1rem;
     border-radius: 0.5rem;
     overflow-x: auto;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
 }
 
 .chat-response code {
@@ -390,22 +391,30 @@
     width: 100%;
     border-collapse: collapse;
     margin: 1rem 0;
-    font-size: 1.6rem;
+    font-size: 1.8rem;
 }
 
 
 /* Typing placeholder for before answer arrives */
 .typing {
     font-family: 'Exo 2', sans-serif;
-    font-size: 1.6rem;
-    color:#7b8ebc;
-    margin-top: auto;
-    margin-bottom: -4rem;
+    font-size: 2rem;
+    line-height: 2.6rem;
+    font-style: italic;
+    display: block;
+    background-color: #060206;
+    color: #a3e7e7;
+    background: linear-gradient(135deg, #2b1e19, #b51163);
+    align-self: flex-start;
+    border-radius: 0 3rem 3rem 3rem;
+    padding: 2rem;
+    text-align: left;
+    margin-bottom: 2rem;
 }
 
 .input-container {
     width: 100%;
-    height: 12rem;
+    height: 10rem;
     display: flex;
     align-items: center;
 }
@@ -454,7 +463,7 @@
 
 
 
-/* media querries tablet view max width 900 */
+/* media querries tablet view max width 900 aka tablet view */
 @media (max-width: 900px) {
    .chat-app {
        flex-direction: column;
@@ -503,8 +512,14 @@
 /* mobile until 500px */
 @media (max-width: 500px) {
 
+    .header-info {
+        padding: 0.4rem 0.2rem 0.2rem 0.2rem;
+    }
 
     .header-info h3 {
+        font-size: 1.6rem;
+    }
+    .header-info span {
         font-size: 1.6rem;
     }
 
@@ -513,7 +528,7 @@
     }
 
     .chat-title {
-        position: sticky;
+        position: fixed;
         background: linear-gradient(125deg, #060206, #590e43);
     }
 
