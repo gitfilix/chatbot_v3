@@ -225,9 +225,8 @@
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    align-items: right;
-    padding: 1rem;
-    /* padding: 2rem 1rem; */
+    align-items: flex-end;
+    padding: 0.5rem 1rem;
     color: #7b8ebc;
     border-top: 1px solid #a3e7e7;
 }
@@ -304,7 +303,7 @@
     margin-top: 0.5rem;
 }
 
-/*new markdown support */
+/*new markdown support as we use ReactMarkdown now */
 /* Headings */
 .chat-response h1,
 .chat-response h2,
@@ -503,6 +502,12 @@
 
 /* mobile until 500px */
 @media (max-width: 500px) {
+
+
+    .header-info h3 {
+        font-size: 1.6rem;
+    }
+
     .chat-list {
         width: 90%;
     }

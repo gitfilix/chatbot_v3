@@ -237,7 +237,7 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
             </div>
             <div className='chat-window'>
             <div className='chat-title'>
-              <h2>FLX Chat</h2>
+              <h2>FLX-Chat</h2>
               <div className='header-info'>
                 <div >
                   <h3>LLM model: <span className='model-name'>{currentModel}</span></h3>

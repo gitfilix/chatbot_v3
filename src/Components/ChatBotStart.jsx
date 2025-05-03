@@ -1,7 +1,6 @@
 import React from 'react'
 import './ChatBotStart.css'
-import InstallPrompt
- from './InstallPrompt';
+import InstallPrompt from './InstallPrompt'
 
 const ChatBotStart = ({ onStartChat }) => {
 
@@ -11,7 +10,7 @@ const ChatBotStart = ({ onStartChat }) => {
       <InstallPrompt />
     </div>
 
-  );
-};
+  )
+}
 
-export default ChatBotStart;
+export default ChatBotStart
