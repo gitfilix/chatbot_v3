@@ -262,7 +262,7 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
                   <span>{msg.timestamp}</span>
                   </div>
                   ))}
-                  {true && (
+                  {isTyping && (
                     <div className='typing'>
                       <span className='dot'></span>
                       <span className='dot'></span>
