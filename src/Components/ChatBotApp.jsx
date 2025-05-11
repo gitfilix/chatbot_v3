@@ -122,12 +122,11 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
         chatResponse = data?.choices?.[0]?.message?.content?.trim() || "Sorry - No response text found";
       }
 
-      // --- Swiss-German compliance: replace 'ß' with 'ss' if input is in German ---
+      // ---TODO: make Swiss-German compliance working: replace 'ß' with 'ss' if input is in German ---
       const isGerman = /[äöüßÄÖÜ]/.test(inputValue) || /\b(der|die|das|und|ist|nicht|ein|eine|ich|du|sie|er|wir|ihr|sie)\b/i.test(inputValue);
-      let swissChatResponse = chatResponse;
+      let swissChatResponse = chatResponse
       if (isGerman) {
-        swissChatResponse = chatResponse.replace(/ß/g, 'ss');
-        // You can add more replacements here if needed
+        swissChatResponse = chatResponse.replace(/ß/g, 'ss')
       }
 
       if (!response.ok) {
@@ -262,8 +261,8 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
             <input
               className='token-input'
               type='range' 
-              min='100' 
-              max='4000' 
+              min='200' 
+              max='6000' 
               value={currentTokens} 
               onChange={(e) => {
                 const selectedTokens = parseInt(e.target.value, 10);
@@ -297,9 +296,9 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
                 <div >
                   <h3>LLM model: <span className='model-name'>{currentModel}</span></h3>
                 </div>
-                  <div>
-                    <h3>Current Tokens: <span className='token-name'>{currentTokens}</span></h3>
-                </div>
+                {isReasoningModelMode 
+                ? (<h3>Reasoning Mode: <span className='model-name'>{reasoningEffort}</span></h3>) 
+                : (<h3>Current Tokens usage: <span className='token-name'>{currentTokens}</span></h3>)}
                </div>
                <div className='menu-icon-container'>              
                   <i className='bx bx-menu'
@@ -313,7 +312,6 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
                   {messages.map((msg, index) => (
                   <div key={index} className={msg.type === 'prompt' ? 'prompt' : 'response'}>
                     <span className="chat-response">
-                      {/* {msg.text} */}
                       <ReactMarkdown>{msg.text}</ReactMarkdown>
                   </span>
                   <span>{msg.timestamp}</span>
