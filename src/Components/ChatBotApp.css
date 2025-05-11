@@ -108,13 +108,13 @@
 } 
 
 .llm-settings h4,
-.token-settings h4 {
+.token-settings h4,
+.reasoning-settings h4 {
     font-family: 'Outfit', sans-serif;
     font-size: 2rem;
     font-weight: 200;
     color: #cbccce;
     padding-bottom: 3rem;
-
 }
 
 .llm-settings, 
@@ -133,7 +133,8 @@
     font-weight: 200;
 }
 
-.llm-settings select {
+.llm-settings select,
+.reasoning-settings select {
     margin-top: 2rem;
     background: transparent;
     border: 1px solid #7b8ebc;

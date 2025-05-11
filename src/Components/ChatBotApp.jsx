@@ -14,9 +14,18 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
   // fetch the apiKey from the local .env file !
   const apiKey = import.meta.env.VITE_REACT_APP_OPENAI_API_KEY || 'no key found';
   const [currentModel, setCurrentModel] = useState('gpt-4.1-nano')
+  const [isReasoningModelMode, setIsReasoningModelMode] = useState(false)
   const [reasoningEffort, setReasoningEffort] = useState('low'); // default to 'low'
   const [currentTokens, setCurrentTokens] = useState(350)
 
+  // Helper to check if current model is a reasoning model
+  const isReasoningModel = (model) => model === 'o4-mini';
+
+  // Update isReasoningModelMode whenever currentModel changes
+  useEffect(() => {
+    setIsReasoningModelMode(isReasoningModel(currentModel));
+    console.log('currentModel:', currentModel)
+  }, [currentModel]);
 
   useEffect(() => {
     // get the active chat object
@@ -32,13 +41,10 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
     }
   }, [activeChat])
   
-
+  
   const handleInputChange = (e) => {
     setInputValue(e.target.value)
   }
-
-  // Helper to check if current model is a reasoning model
-  const isReasoningModel = (model) => model === 'o4-mini';
 
   const sendMessage = async () => {
     if(inputValue.trim() === '') return
@@ -80,7 +86,7 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
 
     let response, data, chatResponse;
     try {
-      if (isReasoningModel(currentModel)) {
+      if (isReasoningModelMode) {
         // --- Reasoning Model API Call ---
         response = await fetch('https://api.openai.com/v1/responses', {
           method: 'POST',
@@ -209,12 +215,13 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
           <h2>API Settings</h2>
           <div className='llm-settings'>
             <h4>Current LLM model for Chat: <div className='model-name'>{currentModel}</div></h4>
-              <select 
-              className='model-select' 
-              value={currentModel} 
+            <select
+              className='model-select'
+              value={currentModel}
               onChange={(e) => {
                 const selectedModel = e.target.value;
                 setCurrentModel(selectedModel);
+                // isReasoningModelMode will be updated by useEffect
               }}>
               <optgroup label='Chat Models'>
                 <option value='gpt-4.1-nano'>gpt-4.1-nano</option>
@@ -223,25 +230,27 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
                 <option value='gpt-4.1-2025-04-14'>gpt-4.1 complex</option>
               </optgroup>
               <optgroup label='Reasoning Models'>
-                <option value= 'o4-mini'>Resaoning: o4-mini</option>
+                <option value='o4-mini'>Reasoning: o4-mini</option>
               </optgroup>
-              </select>
-          </div>
-          <div className='reasoning-settings'>
-            <h4>Reasoning Model:</h4>
-            <select 
-              className='reasoning-select' 
-              value={reasoningEffort} 
-              onChange={(e) => {
-                const selectedModel = e.target.value;
-                 setReasoningEffort(e.target.value);
-              }}>
-              <option value='low'>Reasoning Basic</option>
-              <option value='medium'>Reasoning Advanced</option>
-              <option value='high'>Reasoning Expert</option>
             </select>
           </div>
-          <div className='token-settings'>
+          {isReasoningModelMode && (
+            <div className='reasoning-settings'>
+              <h4>Reasoning Mode:</h4>
+              <select
+                className='reasoning-select'
+                value={reasoningEffort}
+                onChange={(e) => {
+                  const selectedModel = e.target.value;
+                  setReasoningEffort(e.target.value);
+                }}>
+                <option value='low'>Basic reasoning(fast)</option>
+                <option value='medium'>Advanced reasoning (thinking)</option>
+                <option value='high'>Expert reasoning (complex)</option>
+              </select>
+            </div>)}
+          {!isReasoningModelMode && (
+            <div className='token-settings'>
             <h4>Current Tokens usage: <span className='token-name'>{currentTokens}</span></h4>
             <input
               className='token-input'
@@ -253,7 +262,7 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
                 const selectedTokens = parseInt(e.target.value, 10);
                 setCurrentTokens(selectedTokens);
               }} />
-          </div>
+          </div>)}  
         </div>
         <div className='chat-list-header'>
         <h2>Chat List</h2>
