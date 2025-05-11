@@ -25,6 +25,16 @@
 /* Paragraphs */
 .chat-response p {
     margin: 1rem 0;
+    font-size: 1.8rem;
+    line-height: 2.6rem;
+}
+
+.chat-response strong {
+    font-size: 1.8rem;
+    line-height: 2.6rem;
+    letter-spacing: 0.8px;
+    font-weight: bold;
+    color: #eee;
 }
 
 /* Links */

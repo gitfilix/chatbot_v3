@@ -121,7 +121,14 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
         // Parse chat response
         chatResponse = data?.choices?.[0]?.message?.content?.trim() || "Sorry - No response text found";
       }
-      // console.log('Chat response:', chatResponse);
+
+      // --- Swiss-German compliance: replace 'ß' with 'ss' if input is in German ---
+      const isGerman = /[äöüßÄÖÜ]/.test(inputValue) || /\b(der|die|das|und|ist|nicht|ein|eine|ich|du|sie|er|wir|ihr|sie)\b/i.test(inputValue);
+      let swissChatResponse = chatResponse;
+      if (isGerman) {
+        swissChatResponse = chatResponse.replace(/ß/g, 'ss');
+        // You can add more replacements here if needed
+      }
 
       if (!response.ok) {
         console.error("Error:", response.status, response.statusText, data);
