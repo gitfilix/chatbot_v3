@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import ReactMarkdown from 'react-markdown';
 import './ChatBotApp.css'
+import './ChatResponseMarkup.css'
 
 const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNewChat }) => {
   // state hooks
@@ -12,8 +13,8 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
 
   // fetch the apiKey from the local .env file !
   const apiKey = import.meta.env.VITE_REACT_APP_OPENAI_API_KEY || 'no key found';
-  const [currentModel, setCurrentModel] = useState('gpt-3.5-turbo')
-  const [currentTokens, setCurrentTokens] = useState(250)
+  const [currentModel, setCurrentModel] = useState('gpt-4.1-nano')
+  const [currentTokens, setCurrentTokens] = useState(350)
 
   useEffect(() => {
     // get the active chat object
@@ -185,17 +186,15 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
         <div className='chat-settings'>
           <h2>API Settings</h2>
           <div className='llm-settings' >
-            <h4>Current LLM model: <div className='model-name'>{currentModel}</div></h4>
+            <h4>Current LLM model for Chat: <div className='model-name'>{currentModel}</div></h4>
               <select 
-            // Update the current model in the state
+              // Update the current model in the state
               className='model-select' 
               value={currentModel} 
               onChange={(e) => {
                 const selectedModel = e.target.value;
                 setCurrentModel(selectedModel);
               }}>
-              <option value='gpt-3.5-turbo'>gpt-3.5-turbo</option>
-              <option value='gpt-4.0-turbo'>gpt-4.0-turbo</option>
               <option value='gpt-4.1-nano'>gpt-4.1-nano</option>
               <option value='gpt-4o-mini'>gpt-4o mini</option>
               <option value='gpt-4.1-mini'>gpt-4.1-mini</option>
@@ -263,11 +262,19 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
                   <span>{msg.timestamp}</span>
                   </div>
                   ))}
-                  {isTyping && <div className='typing'>FLX Bot is thinking about the answer to your question...</div>}
-                  <div ref={chatEndRef} ></div>
-                </div>
-                <form className='msg-form'
-                  onSubmit={(e) => {
+                  {true && (
+                    <div className='typing'>
+                      <span className='dot'></span>
+                      <span className='dot'></span>
+                      <span className='dot'></span>
+                      <span className='dot'></span>
+                      FLX-Chat-Bot is thinking about the answer to your good question
+                    </div>
+                  )}
+                  <div ref={chatEndRef}></div>
+                  </div>
+                  <form className='msg-form'
+                    onSubmit={(e) => {
             e.preventDefault()
             sendMessage()
           }}>
@@ -277,7 +284,7 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
               placeholder='Ask me anything... FLX chatbot may answer your question'  
               className='msg-input'
               minLength={5}
-              maxLength={200}
+              maxLength={400}
               value={inputValue} 
               onChange={handleInputChange} 
               onKeyDown={handleKeyDown}

@@ -1,0 +1,93 @@
+/* new markdown support as we use ReactMarkdown now */
+/* Headings */
+
+.chat-response h1,
+.chat-response h2,
+.chat-response h3 {
+    margin: 1rem 0;
+    font-weight: bold;
+}
+
+.chat-response h1 {
+    font-size: 2.6rem;
+    letter-spacing: 0.5px;
+    line-height: 3rem;
+}
+
+.chat-response h2 {
+    font-size: 2rem;
+}
+
+.chat-response h3 {
+    font-size: 1.8rem;
+}
+
+/* Paragraphs */
+.chat-response p {
+    margin: 1rem 0;
+}
+
+/* Links */
+.chat-response a {
+    color: #2fecec;
+    text-decoration: none;
+    font-size: 1.6rem;
+}
+
+.chat-response a:hover {
+    text-decoration: underline;
+}
+
+/* Lists */
+.chat-response ul {
+    margin: 1rem 0;
+    padding-left: 2rem;
+}
+
+.chat-response ol {
+    margin: 1rem 0;
+    padding-left: 2rem;
+}
+
+.chat-response li {
+    margin: 0.5rem 0;
+    font-size: 1.8rem;
+    line-height: 2.8rem;
+}
+
+/* Code blocks */
+.chat-response pre {
+    background-color: #1f1d1d;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    font-size: 1.6rem;
+}
+
+.chat-response code {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #191717;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.3rem;
+    font-size: 1.4rem;
+}
+
+/* Blockquotes */
+.chat-response blockquote {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+    border-left: 0.4rem solid #ccc;
+    color: #627aa0;
+    font-style: italic;
+    font-size: 2rem;
+    line-height: 2.6rem;
+    background-color: #191717;
+}
+
+/* Tables */
+.chat-response table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 1.8rem;
+}
