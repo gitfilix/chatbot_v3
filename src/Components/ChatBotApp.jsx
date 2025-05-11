@@ -16,7 +16,7 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
   const [currentModel, setCurrentModel] = useState('gpt-4.1-nano')
   const [reasoningEffort, setReasoningEffort] = useState('low'); // default to 'low'
   const [currentTokens, setCurrentTokens] = useState(350)
-  // console.log('Reasoning Effort:', reasoningEffort) i
+
 
   useEffect(() => {
     // get the active chat object
@@ -37,6 +37,9 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
     setInputValue(e.target.value)
   }
 
+  // Helper to check if current model is a reasoning model
+  const isReasoningModel = (model) => model === 'o4-mini';
+
   const sendMessage = async () => {
     if(inputValue.trim() === '') return
     
@@ -51,80 +54,83 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
     if(!activeChat) {
       onNewChat(inputValue)
       setInputValue('')
-    } else {
-      // if there is an active chat, get the messages of the active chat
-      const updatedMessages = [...messages, newMessage]
-      setMessages(updatedMessages)
-      localStorage.setItem(activeChat, JSON.stringify(updatedMessages))
-      // clear the input field by setting the input field value to an empty string
-      setInputValue('')
-  
-      // updatedChats: update the chats with the new messages, if the chat is the first chat
-      // in the chats array, update the messages with the updated messages
-      const updatedChats = chats.map((chat) => {
-        // if the chat is the active chat in the chats array we update the messages
-        if (chat.id === activeChat) {
-          return {
-            ...chat,
-            messages: updatedMessages
-          }
+      return;
+    }
+
+    const updatedMessages = [...messages, newMessage]
+    setMessages(updatedMessages)
+    localStorage.setItem(activeChat, JSON.stringify(updatedMessages))
+    setInputValue('')
+     // updatedChats: update the chats with the new messages, if the chat is the first chat
+    // in the chats array, update the messages with the updated messages
+    const updatedChats = chats.map((chat) => {
+      if (chat.id === activeChat) {
+        return {
+          ...chat,
+          messages: updatedMessages
         }
-        // otherwise we return the chat as it is
-        return chat
-      })
-      setChats(updatedChats)
-      localStorage.setItem('chats', JSON.stringify(updatedChats))
-      setIsTyping(true)
-      console.log('using the model:', currentModel)
-      // fetch response from openAi 
-      // const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      const response = await fetch('https://api.openai.com/v1/responses', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${apiKey}`,
-        },
-        body: JSON.stringify({
-          // model: currentModel,
-          model: 'o4-mini',
-          reasoning: { effort: reasoningEffort },
-          input: [{role: 'user', content: inputValue}],
-          // max_tokens: currentTokens,
-        }),
-      })
-      console.log('Response:', response)
-      // data response from the fetch request
-      const data = await response.json();
-      console.log('Chat raw:', data.output)
-      
-      // Check for errors
+      }
+      return chat
+    })
+    // update the chats with the new messages
+    setChats(updatedChats)
+    localStorage.setItem('chats', JSON.stringify(updatedChats))
+    setIsTyping(true)
+    console.log('using the model:', currentModel)
+
+    let response, data, chatResponse;
+    try {
+      if (isReasoningModel(currentModel)) {
+        // --- Reasoning Model API Call ---
+        response = await fetch('https://api.openai.com/v1/responses', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${apiKey}`,
+          },
+          body: JSON.stringify({
+            model: currentModel,
+            reasoning: { effort: reasoningEffort },
+            input: [{role: 'user', content: inputValue}],
+          }),
+        });
+        data = await response.json();
+        // Parse reasoning response
+        chatResponse = data?.output?.[1]?.content?.[0]?.text || "Sorry - No response text found";
+      } else {
+        // --- Chat Model API Call ---
+        response = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${apiKey}`,
+          },
+          body: JSON.stringify({
+            model: currentModel,
+            messages: [{role: 'user', content: inputValue}],
+            max_tokens: currentTokens,
+          }),
+        });
+        data = await response.json();
+        // Parse chat response
+        chatResponse = data?.choices?.[0]?.message?.content?.trim() || "Sorry - No response text found";
+      }
+      // console.log('Chat response:', chatResponse);
+
       if (!response.ok) {
         console.error("Error:", response.status, response.statusText, data);
+        setIsTyping(false);
         return;
       }
- 
-      // mostly the response is in the first choice and removes the leading and trailing whitespaces
-      // const chatResponse = data.choices[0].message.content.trim();
 
-      // create a new response message (internal message type response)
-      // const newResponse = {
-      //   type: 'response',
-      //   text: chatResponse,
-      //   timestamp: new Date().toLocaleTimeString()
-      // }
-      const chatResponse =  data?.output[1].content?.[0]?.text || "Sorry - No response text found";
-      console.log('Chat response:', chatResponse);
-      // create a new response message (internal message type response)
       const newResponse = {
         type: 'response',
         text: chatResponse,
         timestamp: new Date().toLocaleTimeString()
       }
-      // update the messages with the new response from Chat-GPT
       const updatedMessagesWithResponse = [...updatedMessages, newResponse]
       setMessages(updatedMessagesWithResponse)
       localStorage.setItem(activeChat, JSON.stringify(updatedMessagesWithResponse))
-      // thinking period is over - no more typing
       setIsTyping(false)
 
       // update and add the curretn chatId with the new messages: updatedMessagesWithResponse
@@ -141,6 +147,9 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
       // update the chats with the new response from Chat-GPT
       setChats(updatedChatsWithResponse)
       localStorage.setItem('chats', JSON.stringify(updatedChatsWithResponse))
+    } catch (err) {
+      setIsTyping(false)
+      console.error('API error:', err)
     }
   }
 
@@ -207,11 +216,15 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
                 const selectedModel = e.target.value;
                 setCurrentModel(selectedModel);
               }}>
-              <option value='gpt-4.1-nano'>gpt-4.1-nano</option>
-              <option value='gpt-4o-mini'>gpt-4o mini</option>
-              <option value='gpt-4.1-mini'>gpt-4.1-mini</option>
-              <option value='gpt-4.1-2025-04-14'>gpt-4.1 complex</option>
-              <option value= 'o4-mini'>Resaoning: o4-mini</option>
+              <optgroup label='Chat Models'>
+                <option value='gpt-4.1-nano'>gpt-4.1-nano</option>
+                <option value='gpt-4o-mini'>gpt-4o mini</option>
+                <option value='gpt-4.1-mini'>gpt-4.1-mini</option>
+                <option value='gpt-4.1-2025-04-14'>gpt-4.1 complex</option>
+              </optgroup>
+              <optgroup label='Reasoning Models'>
+                <option value= 'o4-mini'>Resaoning: o4-mini</option>
+              </optgroup>
               </select>
           </div>
           <div className='reasoning-settings'>
