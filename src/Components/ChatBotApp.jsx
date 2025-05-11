@@ -14,7 +14,9 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
   // fetch the apiKey from the local .env file !
   const apiKey = import.meta.env.VITE_REACT_APP_OPENAI_API_KEY || 'no key found';
   const [currentModel, setCurrentModel] = useState('gpt-4.1-nano')
+  const [reasoningEffort, setReasoningEffort] = useState('low'); // default to 'low'
   const [currentTokens, setCurrentTokens] = useState(350)
+  // console.log('Reasoning Effort:', reasoningEffort) i
 
   useEffect(() => {
     // get the active chat object
@@ -75,21 +77,25 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
       setIsTyping(true)
       console.log('using the model:', currentModel)
       // fetch response from openAi 
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      // const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      const response = await fetch('https://api.openai.com/v1/responses', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
-          model: currentModel,
-          messages: [{role: 'user', content: inputValue}],
-          max_tokens: currentTokens,
+          // model: currentModel,
+          model: 'o4-mini',
+          reasoning: { effort: reasoningEffort },
+          input: [{role: 'user', content: inputValue}],
+          // max_tokens: currentTokens,
         }),
       })
       console.log('Response:', response)
       // data response from the fetch request
       const data = await response.json();
+      console.log('Chat raw:', data.output)
       
       // Check for errors
       if (!response.ok) {
@@ -98,15 +104,22 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
       }
  
       // mostly the response is in the first choice and removes the leading and trailing whitespaces
-      const chatResponse = data.choices[0].message.content.trim();
-      console.log('Chat response:', chatResponse)
+      // const chatResponse = data.choices[0].message.content.trim();
+
+      // create a new response message (internal message type response)
+      // const newResponse = {
+      //   type: 'response',
+      //   text: chatResponse,
+      //   timestamp: new Date().toLocaleTimeString()
+      // }
+      const chatResponse =  data?.output[1].content?.[0]?.text || "Sorry - No response text found";
+      console.log('Chat response:', chatResponse);
       // create a new response message (internal message type response)
       const newResponse = {
         type: 'response',
         text: chatResponse,
         timestamp: new Date().toLocaleTimeString()
       }
-
       // update the messages with the new response from Chat-GPT
       const updatedMessagesWithResponse = [...updatedMessages, newResponse]
       setMessages(updatedMessagesWithResponse)
@@ -185,10 +198,9 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
         </div>
         <div className='chat-settings'>
           <h2>API Settings</h2>
-          <div className='llm-settings' >
+          <div className='llm-settings'>
             <h4>Current LLM model for Chat: <div className='model-name'>{currentModel}</div></h4>
               <select 
-              // Update the current model in the state
               className='model-select' 
               value={currentModel} 
               onChange={(e) => {
@@ -199,18 +211,33 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
               <option value='gpt-4o-mini'>gpt-4o mini</option>
               <option value='gpt-4.1-mini'>gpt-4.1-mini</option>
               <option value='gpt-4.1-2025-04-14'>gpt-4.1 complex</option>
+              <option value= 'o4-mini'>Resaoning: o4-mini</option>
               </select>
           </div>
-            <div className='token-settings'>
-              <h4>Current Tokens usage: <span className='token-name'>{currentTokens}</span></h4>
-              <input
+          <div className='reasoning-settings'>
+            <h4>Reasoning Model:</h4>
+            <select 
+              className='reasoning-select' 
+              value={reasoningEffort} 
+              onChange={(e) => {
+                const selectedModel = e.target.value;
+                 setReasoningEffort(e.target.value);
+              }}>
+              <option value='low'>Reasoning Basic</option>
+              <option value='medium'>Reasoning Advanced</option>
+              <option value='high'>Reasoning Expert</option>
+            </select>
+          </div>
+          <div className='token-settings'>
+            <h4>Current Tokens usage: <span className='token-name'>{currentTokens}</span></h4>
+            <input
               className='token-input'
               type='range' 
               min='100' 
               max='4000' 
               value={currentTokens} 
               onChange={(e) => {
-                const selectedTokens = parseInt(e.target.value, 10); // Ensure it's a number
+                const selectedTokens = parseInt(e.target.value, 10);
                 setCurrentTokens(selectedTokens);
               }} />
           </div>
@@ -257,6 +284,7 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
                   {messages.map((msg, index) => (
                   <div key={index} className={msg.type === 'prompt' ? 'prompt' : 'response'}>
                     <span className="chat-response">
+                      {/* {msg.text} */}
                       <ReactMarkdown>{msg.text}</ReactMarkdown>
                   </span>
                   <span>{msg.timestamp}</span>
