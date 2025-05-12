@@ -6,7 +6,7 @@ version 3 of chatbot with chat-gpt integration for render deployment
 lets talk with AI with this nice UI and try out the API of openAI
 
 # install it locally
-`npm install``
+`npm install`
 
 # start the dev server
 
@@ -55,11 +55,13 @@ Currently, two official plugins are available:
 - use 'serve' npm script to run the app after build and add the host to the allowedHosts array
 - use 'render' npm script to deploy the app
 - remove the emoji-picker-library as it causes problems due the build process 
-- some neat css tricks.
+- some neat css tricks (a.k.a use aspect-ratio for layouting).
 - add differnt models to the openAI API (using: gpt-3.5-turbo,  gpt-4, gpt-4.0-turbo, gpt-4.1-nano, gpt-4o-mini, gpt-4.1-mini, gpt-4.1-2025-04-14)
 - use the render.com favicon generator to get a favicon for your app (with the logo of the render.com website)
 - use the realfavicon generator
 - work with markdown and styling with the markdown-it library
+- API for reasoning models and response object different from chat- models
+- reasoning model API Call structure for [OpenAPI](https://platform.openai.com/docs/guides/reasoning?api-mode=responses) 3 turns thinking. 
 
 
 
