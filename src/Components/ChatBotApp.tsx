@@ -159,11 +159,11 @@ const ChatBotApp: React.FC<ChatBotAppProps> = ({ onGoBack, chats, setChats, acti
         chatResponse = data?.choices?.[0]?.message?.content?.trim() || "Sorry - No response text found";
       }
 
-      // TODO: make Swiss-German compliance working: replace 'ß' with 'ss' if input is in German ---
+      // Swiss-German compliance: replace 'ß' with 'ss' if input is in German
       const isGerman = /[äöüßÄÖÜ]/.test(inputValue) || /\b(der|die|das|und|ist|nicht|ein|eine|ich|du|sie|er|wir|ihr|sie)\b/i.test(inputValue);
-      let swissChatResponse = chatResponse
-      if (isGerman) {
-        swissChatResponse = chatResponse.replace(/ß/g, 'ss')
+      let swissChatResponse = chatResponse;
+      if (isGerman && typeof chatResponse === 'string') {
+        swissChatResponse = chatResponse.replace(/ß/g, 'ss');
       }
 
       if (!response.ok) {
@@ -175,7 +175,7 @@ const ChatBotApp: React.FC<ChatBotAppProps> = ({ onGoBack, chats, setChats, acti
       // create a new response message
       const newResponse: Message = {
         type: 'response',
-        text: chatResponse,
+        text: swissChatResponse,
         timestamp: new Date().toLocaleTimeString()
       }
       const updatedMessagesWithResponse = [...updatedMessages, newResponse]
