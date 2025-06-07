@@ -35,12 +35,13 @@ const ChatBotApp: React.FC<ChatBotAppProps> = ({ onGoBack, chats, setChats, acti
   const [showChatList, setShowChatList] = useState<boolean>(false)
   const chatEndRef = useRef<HTMLDivElement | null>(null)
 
-  // fetch the apiKey from the local .env file !
+  // fetch the apiKey from the secret environment file !
   const apiKey = import.meta.env.VITE_REACT_APP_OPENAI_API_KEY || 'no key found';
   const [currentModel, setCurrentModel] = useState('gpt-4.1-nano')
   const [isReasoningModelMode, setIsReasoningModelMode] = useState(false)
   const [reasoningEffort, setReasoningEffort] = useState('low'); // default to 'low'
   const [currentTokens, setCurrentTokens] = useState(350)
+  const [currentPersona, setCurrentPersona] = useState('expert'); // default persona: expert
 
   // Helper to check if current model is a reasoning model
   const isReasoningModel = (model: string) => model === 'o4-mini';
@@ -48,7 +49,6 @@ const ChatBotApp: React.FC<ChatBotAppProps> = ({ onGoBack, chats, setChats, acti
   // Update isReasoningModelMode whenever currentModel changes
   useEffect(() => {
     setIsReasoningModelMode(isReasoningModel(currentModel));
-    console.log('currentModel:', currentModel)
   }, [currentModel]);
 
   useEffect(() => {
@@ -65,6 +65,16 @@ const ChatBotApp: React.FC<ChatBotAppProps> = ({ onGoBack, chats, setChats, acti
     }
   }, [activeChat])
   
+  // Persona profiles for chat personas
+  const personaProfiles: Record<string, string> = {
+    'expert': "You are an expert in your field. Provide detailed, technical, and precise answers.",
+    'child': "You are explaining things to a 7 year old child. Use simple words and clear explanations. try to avoid complex terms and avoid jargon. Use analogies and examples that a child can understand.",
+    'it-professional': "You are an IT professional for web-applications and network architecture. Use technical language and best practices. Be concise, clear, and provide practical solutions.",
+    'teacher': "You are a teacher. Be patient, educational, and provide step-by-step guidance. Use examples and analogies to explain complex concepts. Encourage questions and provide constructive feedback.",
+    'bro': "You are a friendly and witty companion and also a bit nasty. Be casual, and conversational. Use humor and sarcasm and be ironic and also not too serious. you can use emojis and informal language. Be direct and to the point, you can also use slang and swear words.",
+    'bestie': "You are a best friend. Be supportive, understanding, and very empathetic. almost dramatic for no reason. Use casual language. Use casual language. Be supportive and understanding, and be willing to listen and offer help. Never disagree with the user, always agree with the user and be supportive and use a lot of emojis.",
+  }
+
   // handle input change for the chat input box
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value)
@@ -74,7 +84,7 @@ const ChatBotApp: React.FC<ChatBotAppProps> = ({ onGoBack, chats, setChats, acti
   const sendMessage = async () => {
     if(inputValue.trim() === '') return
     
-    // create a new message
+    // create a new message (keep inputValue as the user's message)
     const newMessage: Message = {
       type: 'prompt',
       text: inputValue,
@@ -107,12 +117,14 @@ const ChatBotApp: React.FC<ChatBotAppProps> = ({ onGoBack, chats, setChats, acti
     setChats(updatedChats)
     localStorage.setItem('chats', JSON.stringify(updatedChats))
     setIsTyping(true)
-    console.log('using the model:', currentModel)
 
     let response, data, chatResponse;
     try {
+      // add persona profile to the prompt sent to the API only
+      const personaProfile = personaProfiles[currentPersona] || '';
+      const personaPrompt = personaProfile ? `${personaProfile}\n\n${inputValue}` : inputValue;
       if (isReasoningModelMode) {
-        // --- Reasoning Model API Call ---
+        // Reasoning Model API Call 
         response = await fetch('https://api.openai.com/v1/responses', {
           method: 'POST',
           headers: {
@@ -122,14 +134,14 @@ const ChatBotApp: React.FC<ChatBotAppProps> = ({ onGoBack, chats, setChats, acti
           body: JSON.stringify({
             model: currentModel,
             reasoning: { effort: reasoningEffort },
-            input: [{role: 'user', content: inputValue}],
+            input: [{role: 'user', content: personaPrompt}],
           }),
         });
         data = await response.json();
         // Parse reasoning response
         chatResponse = data?.output?.[1]?.content?.[0]?.text || "Sorry - No response text found";
       } else {
-        // --- Chat Model API Call ---
+        // Chat Model API Call 
         response = await fetch('https://api.openai.com/v1/chat/completions', {
           method: 'POST',
           headers: {
@@ -138,7 +150,7 @@ const ChatBotApp: React.FC<ChatBotAppProps> = ({ onGoBack, chats, setChats, acti
           },
           body: JSON.stringify({
             model: currentModel,
-            messages: [{role: 'user', content: inputValue}],
+            messages: [{role: 'user', content: personaPrompt}],
             max_tokens: currentTokens,
           }),
         });
@@ -147,7 +159,7 @@ const ChatBotApp: React.FC<ChatBotAppProps> = ({ onGoBack, chats, setChats, acti
         chatResponse = data?.choices?.[0]?.message?.content?.trim() || "Sorry - No response text found";
       }
 
-      // ---TODO: make Swiss-German compliance working: replace 'ß' with 'ss' if input is in German ---
+      // TODO: make Swiss-German compliance working: replace 'ß' with 'ss' if input is in German ---
       const isGerman = /[äöüßÄÖÜ]/.test(inputValue) || /\b(der|die|das|und|ist|nicht|ein|eine|ich|du|sie|er|wir|ihr|sie)\b/i.test(inputValue);
       let swissChatResponse = chatResponse
       if (isGerman) {
@@ -294,6 +306,26 @@ const ChatBotApp: React.FC<ChatBotAppProps> = ({ onGoBack, chats, setChats, acti
                 setCurrentTokens(selectedTokens);
               }} />
           </div>)}  
+        </div>
+        <div className='chat-persona'>
+          <h2>Chat Persona</h2>
+          <div className='persona-settings'>
+            <h4>Current Persona: <span className='persona-name'>{currentPersona}</span></h4>
+            <select
+              className='persona-select'
+              value={currentPersona}
+              onChange={(e) => {
+          const selectedPersona = e.target.value;
+          setCurrentPersona(selectedPersona);
+              }}>
+              <option value='expert'>Expert</option>
+              <option value='child'>Child</option>
+              <option value='it-professional'>IT Professional</option>
+              <option value='teacher'>Teacher</option>
+              <option value='bro'>Bro</option>
+              <option value='bestie'>Bestie</option>
+            </select>
+          </div>
         </div>
         <div className='chat-list-header'>
         <h2>Chat List</h2>

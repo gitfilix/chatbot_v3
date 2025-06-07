@@ -87,16 +87,8 @@
     }
 }
 
-.chat-settings h2 {
-    color: #7b8ebc;
-    font-size: 2.2rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-family: 'Exo 2', sans-serif;
-}
-
-.chat-settings {
+.chat-settings,
+.chat-persona {
     padding: 2rem 1rem;
     display: flex;
     flex-direction: column;
@@ -107,9 +99,21 @@
     row-gap: 2rem;
 } 
 
+.chat-settings h2,
+.chat-persona h2 {
+    color: #7b8ebc;
+    font-size: 2.2rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: 'Exo 2', sans-serif;
+}
+
+
 .llm-settings h4,
 .token-settings h4,
-.reasoning-settings h4 {
+.reasoning-settings h4,
+.persona-settings h4 {
     font-family: 'Outfit', sans-serif;
     font-size: 2rem;
     font-weight: 200;
@@ -118,23 +122,29 @@
 }
 
 .llm-settings, 
-.token-settings {
-    /* padding: 2rem; */
+.token-settings,
+.reasoning-settings,
+.persona-settings {
     background-color: #131927;
 }
 
 .model-name,
-.token-name {
+.token-name,
+.reasoning-name,
+.persona-name {
     font-family: 'Outfit', sans-serif;
     padding-top: 1.5rem;
     font-size: 2rem;
     font-weight: 200;
     color: #a3e7e7;   
     font-weight: 200;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 .llm-settings select,
-.reasoning-settings select {
+.reasoning-settings select,
+.persona-settings select {
     margin-top: 2rem;
     background: transparent;
     border: 1px solid #7b8ebc;
