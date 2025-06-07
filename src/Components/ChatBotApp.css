@@ -147,6 +147,7 @@
     font-family: 'Outfit', sans-serif;
     margin: 0.5rem 0;
     cursor: pointer;
+    width: max-content;
 
     &:hover {
         color: #a3e7e7;  
@@ -336,15 +337,22 @@
     margin: 10px 0;
 }
 
+.thinking {
+    padding-left: 20px;
+}
+
 .typing .dot {
   display: inline-block;
-  width: 6px;
-  height: 6px;
-  margin: 0 2px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: #a3e7e7;
-  opacity: 0.3;
+  opacity: 0.2;
   animation: typing-bounce 1s infinite;
+}
+
+.typing span {
+    padding-right: 7px;
 }
 
 .typing .dot:nth-child(1) {
@@ -436,7 +444,7 @@
         position: fixed;
         top: 0;
         left: 0;
-        width: 40%;
+        width: 60%;
         height: 100%;
         transform: translateX(-100%);
         transition: transform 0.5s ease-out;

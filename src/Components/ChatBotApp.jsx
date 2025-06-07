@@ -323,7 +323,7 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
                       <span className='dot'></span>
                       <span className='dot'></span>
                       <span className='dot'></span>
-                      FLX-Chat-Bot is thinking about the answer to your good question
+                      <div className='thinking'>FLX-Chat-Bot is thinking about the answer to your good question</div>
                     </div>
                   )}
                   <div ref={chatEndRef}></div>
