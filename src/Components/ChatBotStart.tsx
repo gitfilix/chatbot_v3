@@ -2,7 +2,11 @@ import React from 'react'
 import './ChatBotStart.css'
 import InstallPrompt from './InstallPrompt'
 
-const ChatBotStart = ({ onStartChat }) => {
+interface ChatBotStartProps {
+  onStartChat: () => void;
+}
+
+const ChatBotStart: React.FC<ChatBotStartProps> = ({ onStartChat }) => {
 
   return (
     <div className='start-page'>

@@ -3,13 +3,37 @@ import ReactMarkdown from 'react-markdown';
 import './ChatBotApp.css'
 import './ChatResponseMarkup.css'
 
-const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNewChat }) => {
+// Message type for chat messages
+interface Message {
+  type: 'prompt' | 'response';
+  text: string;
+  timestamp: string;
+}
+
+// Chat type for each chat session
+interface Chat {
+  id: string;
+  displayId: string;
+  messages: Message[];
+}
+
+// Props for ChatBotApp component
+interface ChatBotAppProps {
+  onGoBack: () => void;
+  chats: Chat[];
+  setChats: React.Dispatch<React.SetStateAction<Chat[]>>;
+  activeChat: string | null;
+  setActiveChat: React.Dispatch<React.SetStateAction<string | null>>;
+  onNewChat: (initialMsg?: string) => void;
+}
+
+const ChatBotApp: React.FC<ChatBotAppProps> = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNewChat }) => {
   // state hooks
-  const [inputValue, setInputValue] = useState('')
-  const [messages, setMessages] = useState(chats[0]?.messages || [])
-  const [isTyping, setIsTyping] = useState(false)
-  const [showChatList, setShowChatList] = useState(false)
-  const chatEndRef = useRef(null)
+  const [inputValue, setInputValue] = useState<string>('')
+  const [messages, setMessages] = useState<Message[]>(chats[0]?.messages || [])
+  const [isTyping, setIsTyping] = useState<boolean>(false)
+  const [showChatList, setShowChatList] = useState<boolean>(false)
+  const chatEndRef = useRef<HTMLDivElement | null>(null)
 
   // fetch the apiKey from the local .env file !
   const apiKey = import.meta.env.VITE_REACT_APP_OPENAI_API_KEY || 'no key found';
@@ -19,7 +43,7 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
   const [currentTokens, setCurrentTokens] = useState(350)
 
   // Helper to check if current model is a reasoning model
-  const isReasoningModel = (model) => model === 'o4-mini';
+  const isReasoningModel = (model: string) => model === 'o4-mini';
 
   // Update isReasoningModelMode whenever currentModel changes
   useEffect(() => {
@@ -41,16 +65,17 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
     }
   }, [activeChat])
   
-  
-  const handleInputChange = (e) => {
+  // handle input change for the chat input box
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value)
   }
 
+  // send a message to the chat (handles both chat and reasoning models)
   const sendMessage = async () => {
     if(inputValue.trim() === '') return
     
     // create a new message
-    const newMessage = {
+    const newMessage: Message = {
       type: 'prompt',
       text: inputValue,
       timestamp: new Date().toLocaleString()
@@ -67,7 +92,7 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
     setMessages(updatedMessages)
     localStorage.setItem(activeChat, JSON.stringify(updatedMessages))
     setInputValue('')
-     // updatedChats: update the chats with the new messages, if the chat is the first chat
+    // updatedChats: update the chats with the new messages, if the chat is the first chat
     // in the chats array, update the messages with the updated messages
     const updatedChats = chats.map((chat) => {
       if (chat.id === activeChat) {
@@ -135,7 +160,8 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
         return;
       }
 
-      const newResponse = {
+      // create a new response message
+      const newResponse: Message = {
         type: 'response',
         text: chatResponse,
         timestamp: new Date().toLocaleTimeString()
@@ -165,9 +191,8 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
     }
   }
 
-
   // keyboard event listener for enter key
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault()
       sendMessage()
@@ -175,13 +200,13 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
   }
 
   // handle selected which is active chat
-  const handleSelectedChat = (id) => {
+  const handleSelectedChat = (id: string) => {
     // setActiveChat is a state setter in the App.jsx component
     setActiveChat(id)
   }
 
   // handle delete chat function
-  const handleDeleteChat = (id) => {
+  const handleDeleteChat = (id: string) => {
     // filter out the chat with the id to be deleted (all chats except the chat with the id)
     const updatedChats = chats.filter((chat) => chat.id !== id)
     setChats(updatedChats)
@@ -356,3 +381,10 @@ const ChatBotApp = ({ onGoBack, chats, setChats, activeChat, setActiveChat, onNe
 }
 
 export default ChatBotApp
+
+// Extend ImportMetaEnv to type your custom environment variable
+declare global {
+  interface ImportMetaEnv {
+    readonly VITE_REACT_APP_OPENAI_API_KEY: string;
+  }
+}
