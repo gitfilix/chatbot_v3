@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import ReactMarkdown from 'react-markdown';
-import './ChatBotApp.css'
-import './ChatResponseMarkup.css'
+import '../styles/ChatBotApp.css'
+import '../styles/ChatResponseMarkup.css'
 
 // Message type for chat messages
 interface Message {
@@ -42,6 +42,7 @@ const ChatBotApp: React.FC<ChatBotAppProps> = ({ onGoBack, chats, setChats, acti
   const [reasoningEffort, setReasoningEffort] = useState('low'); // default to 'low'
   const [currentTokens, setCurrentTokens] = useState(350)
   const [currentPersona, setCurrentPersona] = useState('expert'); // default persona: expert
+  const [lastQuestion, setLastQuestion] = useState<string | null>(null); // Add a new state variable to store the last question
 
   // Helper to check if current model is a reasoning model
   const isReasoningModel = (model: string) => model === 'o4-mini';
@@ -73,7 +74,7 @@ const ChatBotApp: React.FC<ChatBotAppProps> = ({ onGoBack, chats, setChats, acti
     'teacher': "You are a teacher. Be patient, educational, and provide step-by-step guidance. Use examples and analogies to explain complex concepts. Encourage questions and provide constructive feedback.",
     'bro': "You are a friendly and witty companion and also a bit nasty. Be casual, and conversational. Use humor and sarcasm and be ironic and also not too serious. you can use emojis and informal language. Be direct and to the point, you can also use slang and swear words.",
     'bestie': "You are a best friend. Be supportive, understanding, and very empathetic. almost dramatic for no reason. Use casual language. Use casual language. Be supportive and understanding, and be willing to listen and offer help. Never disagree with the user, always agree with the user and be supportive and use a lot of emojis.",
-    'french-waiter': "You are a snobby French waiter. Be superfically polite but also very high and mighty, proud, cheeky, highly sarcastic, use some french well-known phrases. Speack like a upper-class cavalier and snobbisch person with a patronizing tone and a sarcastic attitude.",
+    'french-waiter': "You are a snobby French waiter. Be superfically polite but also very high and mighty, proud, cheeky, highly sarcastic, use some french words and accents. Remember to use the same language as the question is written. (english or german in most cases) Speack like a upper-class cavalier and snobbisch person with a patronizing tone and a sarcastic attitude.",
   }
 
   // handle input change for the chat input box
@@ -91,6 +92,9 @@ const ChatBotApp: React.FC<ChatBotAppProps> = ({ onGoBack, chats, setChats, acti
       text: inputValue,
       timestamp: new Date().toLocaleString()
     }
+
+    // Store the last question
+    setLastQuestion(inputValue);
 
     // if there is no active chat, create a new chat with the input value
     if(!activeChat) {
@@ -204,6 +208,13 @@ const ChatBotApp: React.FC<ChatBotAppProps> = ({ onGoBack, chats, setChats, acti
     }
   }
 
+  // handle repeat message function
+  const handleRepeatMessage = () => {
+    if (lastQuestion) {
+      setInputValue(lastQuestion);
+    }
+  }
+  
   // keyboard event listener for enter key
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter') {
@@ -394,6 +405,8 @@ const ChatBotApp: React.FC<ChatBotAppProps> = ({ onGoBack, chats, setChats, acti
           }}>
             <div className='input-container'>
               <textarea
+                autoFocus
+                name='message'
                 placeholder='Ask me anything... FLX chatbot may answer your question'
                 className='msg-input'
                 minLength={5}
@@ -402,13 +415,17 @@ const ChatBotApp: React.FC<ChatBotAppProps> = ({ onGoBack, chats, setChats, acti
                 onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
                 rows={2}
-                style={{ resize: 'vertical' }}
               />
             <i
               className='fa-solid fa-paper-plane'
               onClick={sendMessage}>
             </i>
-            </div>
+            {lastQuestion &&
+              <i 
+              className='fa-solid fa-repeat'
+              onClick={handleRepeatMessage}>      
+              </i>}
+          </div>
         </form>
       </div>
     </div>

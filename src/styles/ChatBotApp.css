@@ -426,20 +426,43 @@
     border: none;
     outline: none;
     color: #7b8ebc;
-    font-size: 2rem;
-    line-height: 2.8rem;
-    font-weight: 200;
+    font-family: 'Exo 2', sans-serif;
+    font-size: 2.2rem;
+    line-height: 2.6rem;
+    font-weight: 400;
     inset: auto;
+    resize: none;
+    overflow: auto;
 }
 
+
 .msg-input::placeholder {
-    font-size: 1.8rem;
+    font-size: 2rem;
+    line-height: 2.8rem;
     font-family: 'Exo 2', sans-serif;
     color: #576382;
+    font-weight: 200;
+    opacity: 0.8;
+    transform: translateY(-8px);
 }
 
 .msg-input:focus::placeholder {
     opacity: 0;
+}
+
+.msg-input::-webkit-inner-spin-button {
+    display: none;
+}
+
+.repeat-btn {
+    position: absolute;
+    bottom: 12rem;
+    right: 3rem;
+    border: none;
+    background-color: transparent;
+    color: #7b8ebc;
+    font-size: 1.5rem;
+    cursor: pointer;
 }
 
 
@@ -515,8 +538,8 @@
 
 
     .msg-input {
-        font-size: 2.8rem;
-        line-height: 3.4rem;
+        font-size: 2.4rem;
+        line-height: 3.2rem;
     }
 
     .chat-window {

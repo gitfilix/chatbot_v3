@@ -1,5 +1,5 @@
 import React from 'react'
-import './ChatBotStart.css'
+import '../styles/ChatBotStart.css'
 import InstallPrompt from './InstallPrompt'
 
 interface ChatBotStartProps {

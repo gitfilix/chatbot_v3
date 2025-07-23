@@ -1,7 +1,7 @@
 // fuckin vibe coding works
 
 import React, { useEffect, useState } from 'react';
-import './installPrompt.css';
+import '../styles/InstallPrompt.css';
 
 
 const InstallPrompt: React.FC = () => {
