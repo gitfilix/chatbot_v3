@@ -420,21 +420,22 @@
 }
 
 .msg-input {
-    height: 100%;
+    padding: 1rem;
     flex-grow: 1;
     background-color: transparent;
     border: none;
-    font-size: 2.4rem;
-    line-height: 2.2rem;
-    color:#7b8ebc;
-    font-weight: 400;
+    outline: none;
+    color: #7b8ebc;
+    font-size: 2rem;
+    line-height: 2.8rem;
+    font-weight: 200;
     inset: auto;
 }
 
 .msg-input::placeholder {
     font-size: 1.8rem;
     font-family: 'Exo 2', sans-serif;
-    color: #4e566b;
+    color: #576382;
 }
 
 .msg-input:focus::placeholder {

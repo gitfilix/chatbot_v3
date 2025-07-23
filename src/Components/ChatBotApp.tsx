@@ -65,7 +65,7 @@ const ChatBotApp: React.FC<ChatBotAppProps> = ({ onGoBack, chats, setChats, acti
     }
   }, [activeChat])
   
-  // Persona profiles for chat personas
+  // Persona profiles for chat personas - for different chat personalities and Fun!
   const personaProfiles: Record<string, string> = {
     'expert': "You are an expert in your field. Provide detailed, technical, and precise answers.",
     'child': "You are explaining things to a 7 year old child. Use simple words and clear explanations. try to avoid complex terms and avoid jargon. Use analogies and examples that a child can understand.",
@@ -73,10 +73,11 @@ const ChatBotApp: React.FC<ChatBotAppProps> = ({ onGoBack, chats, setChats, acti
     'teacher': "You are a teacher. Be patient, educational, and provide step-by-step guidance. Use examples and analogies to explain complex concepts. Encourage questions and provide constructive feedback.",
     'bro': "You are a friendly and witty companion and also a bit nasty. Be casual, and conversational. Use humor and sarcasm and be ironic and also not too serious. you can use emojis and informal language. Be direct and to the point, you can also use slang and swear words.",
     'bestie': "You are a best friend. Be supportive, understanding, and very empathetic. almost dramatic for no reason. Use casual language. Use casual language. Be supportive and understanding, and be willing to listen and offer help. Never disagree with the user, always agree with the user and be supportive and use a lot of emojis.",
+    'french-waiter': "You are a snobby French waiter. Be superfically polite but also very high and mighty, proud, cheeky, highly sarcastic, use some french well-known phrases. Speack like a upper-class cavalier and snobbisch person with a patronizing tone and a sarcastic attitude.",
   }
 
   // handle input change for the chat input box
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputValue(e.target.value)
   }
 
@@ -204,7 +205,7 @@ const ChatBotApp: React.FC<ChatBotAppProps> = ({ onGoBack, chats, setChats, acti
   }
 
   // keyboard event listener for enter key
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault()
       sendMessage()
@@ -324,6 +325,7 @@ const ChatBotApp: React.FC<ChatBotAppProps> = ({ onGoBack, chats, setChats, acti
               <option value='teacher'>Teacher</option>
               <option value='bro'>Bro</option>
               <option value='bestie'>Bestie</option>
+              <option value='french-waiter'>French Waiter</option>
             </select>
           </div>
         </div>
@@ -380,32 +382,33 @@ const ChatBotApp: React.FC<ChatBotAppProps> = ({ onGoBack, chats, setChats, acti
                       <span className='dot'></span>
                       <span className='dot'></span>
                       <span className='dot'></span>
-                      <div className='thinking'>FLX-Chat-Bot is thinking about the answer to your good question</div>
+                      <div className='thinking'>FLX-Bot is thinking about the Answer to your good question</div>
                     </div>
                   )}
                   <div ref={chatEndRef}></div>
                   </div>
                   <form className='msg-form'
                     onSubmit={(e) => {
-            e.preventDefault()
-            sendMessage()
+                      e.preventDefault()
+                      sendMessage()
           }}>
-          <div className='input-container'>
-            <input 
-              type='text' 
-              placeholder='Ask me anything... FLX chatbot may answer your question'  
-              className='msg-input'
-              minLength={5}
-              maxLength={400}
-              value={inputValue} 
-              onChange={handleInputChange} 
-              onKeyDown={handleKeyDown}
+            <div className='input-container'>
+              <textarea
+                placeholder='Ask me anything... FLX chatbot may answer your question'
+                className='msg-input'
+                minLength={5}
+                maxLength={400}
+                value={inputValue}
+                onChange={handleInputChange}
+                onKeyDown={handleKeyDown}
+                rows={2}
+                style={{ resize: 'vertical' }}
               />
-            <i 
-              className='fa-solid fa-paper-plane' 
+            <i
+              className='fa-solid fa-paper-plane'
               onClick={sendMessage}>
-              </i>
-          </div>  
+            </i>
+            </div>
         </form>
       </div>
     </div>
